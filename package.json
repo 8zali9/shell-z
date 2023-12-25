@@ -1,0 +1,27 @@
+{
+  "name": "shell-z",
+  "version": "1.0.0",
+  "description": "shell-z for gen-z",
+  "main": "index.js",
+  "bin": {
+    "gen": "scripts/gen-script",
+    "gd": "scripts/genDir-script",
+    "gdir": "scripts/genDir-script",
+    "ers": "scripts/ers-script",
+    "erd": "scripts/erdir-script",
+    "erdir": "scripts/erdir-script",
+    "rel": "scripts/rel-script",
+    "swidir": "scripts/switchDir-script",
+    "swd": "scripts/switchDir-script"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8zali9/shell-z.git"
+  },
+  "keywords": [],
+  "author": "Zulfiqar",
+  "license": "ISC"
+}
