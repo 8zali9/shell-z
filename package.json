@@ -11,8 +11,13 @@
     "erd": "scripts/erdir-script",
     "erdir": "scripts/erdir-script",
     "rel": "scripts/rel-script",
+    "cln": "scripts/clone-script",
+    "clone": "scripts/clone-script",
     "swidir": "scripts/switchDir-script",
-    "swd": "scripts/switchDir-script"
+    "swd": "scripts/switchDir-script",
+    "wip": "scripts/wipe-script",
+    "synfo": "scripts/synfo-script",
+    "gepro": "scripts/gepro-script"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

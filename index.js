@@ -1,6 +1,7 @@
+const os = require("os");
+const { exec } = require("child_process");
 const fs = require("fs");
 const path = require("path");
-const readline = require("readline");
 
 exports.createNwriteToFileCall = createNwriteToFile;
 exports.generateDirectoryCall = generateDirectory;
@@ -8,6 +9,10 @@ exports.changePathFromCurrentDirectoryCall = changePathFromCurrentDirectory;
 exports.eraseFileCall = eraseFile;
 exports.eraseDirectoryCall = eraseDirectory;
 exports.relocateFileOrDirectoryCall = relocateFileOrDirectory;
+exports.cloneFileCall = cloneFile;
+exports.systemInformationCall = systemInformation;
+exports.getRunningProcessesCall = getRunningProcesses;
+exports.wipeScreenCall = wipeScreen;
 
 // @desc:  creating or creating & writing to a file
 function createNwriteToFile() {
@@ -64,9 +69,10 @@ function eraseDirectory() {
 
 // @desc:  moving a file/directory
 function relocateFileOrDirectory() {
-  const toMove = process.argv[2];
   const sourcePath = process.argv[2];
-  const destinationPath = path.join(process.argv[3], toMove);
+  const destinationPath = path.join(process.argv[3], sourcePath);
+  console.log(sourcePath);
+  console.log(destinationPath);
   fs.rename(sourcePath, destinationPath, (err) => {
     if (err) {
       console.log(err);
@@ -74,12 +80,67 @@ function relocateFileOrDirectory() {
   });
 }
 
+// @desc:  cloning or copying a file
+function cloneFile() {
+  const sourcePath = process.argv[2];
+  const destinationPath = path.join(process.argv[3], sourcePath);
+
+  fs.copyFile(sourcePath, destinationPath, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+
+function systemInformation() {
+  console.log("Platform: ", os.platform());
+  console.log("Type: ", os.type());
+  console.log("Release: ", os.release());
+  console.log("Architecture: ", os.arch());
+  console.log("CPUs: ", os.cpus());
+  console.log("Total Memory: ", os.totalmem());
+  console.log("Free Memory: ", os.freemem());
+  console.log("User Info: ", os.userInfo());
+}
+
+function getRunningProcesses() {
+  exec("tasklist", (err, stdout, stderr) => {
+    if (err) {
+      console.log(err);
+    }
+
+    const processes = stdout.split("\n").slice(2, 12);
+    console.log(processes.join("\n"));
+  });
+}
+
+// ------------------------------------------------------------------------------------------------------------
+
 // @desc:  changing path
 //                                         !!! NOT COMPLETED: CANNOT CHANGE THE PATH
 function changePathFromCurrentDirectory() {
   const jottedDirName = process.argv[2];
   const currPath = path.join(process.cwd(), jottedDirName);
-  process.chdir(currPath);
   console.log(currPath);
   console.log(jottedDirName);
+  process.chdir(currPath);
 }
+
+// @desc:  wiping/cleaning the screen
+function wipeScreen() {
+  exec("cls", (error, stdout, stderr) => {
+    if (error) {
+      console.log(error);
+    }
+  });
+}
+
+function promptChange() {
+  exec("prompt shell-z ~ ", (error, stdout, stderr) => {
+    if (error) {
+      console.log(error);
+    }
+  });
+}
+
+promptChange();
