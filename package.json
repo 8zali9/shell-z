@@ -1,5 +1,5 @@
 {
-  "name": "shell-z",
+  "name": "@8zali9/shell-z",
   "version": "1.0.0",
   "description": "shell-z for gen-z",
   "main": "index.js",
@@ -13,11 +13,9 @@
     "rel": "scripts/rel-script",
     "cln": "scripts/clone-script",
     "clone": "scripts/clone-script",
-    "swidir": "scripts/switchDir-script",
-    "swd": "scripts/switchDir-script",
-    "wip": "scripts/wipe-script",
     "synfo": "scripts/synfo-script",
-    "gepro": "scripts/gepro-script"
+    "gepro": "scripts/gepro-script",
+    "batexec": "scripts/batexec-script"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,7 +24,13 @@
     "type": "git",
     "url": "git+https://github.com/8zali9/shell-z.git"
   },
-  "keywords": [],
+  "keywords": [
+    "shell-z"
+  ],
   "author": "Zulfiqar",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/8zali9/shell-z/issues"
+  },
+  "homepage": "https://github.com/8zali9/shell-z#readme"
 }

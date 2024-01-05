@@ -1,0 +1,16 @@
+{ 
+    "batch1": {
+        "job1": "gdir p2",
+        "job2": "gen p2.txt",
+        "job3": "clone p2.txt p2",
+        "job4": "ers p2.txt"
+    },
+    "batch2": {
+        "job1": "gdir temp"
+    },
+    "batch3": {
+        "job1": "gdir p1",
+        "job2": "gen p1.c",
+        "job3": "rel p1.c p1"
+    }
+}

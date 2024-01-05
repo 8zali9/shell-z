@@ -2,17 +2,17 @@ const os = require("os");
 const { exec } = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const batches = require("./batches.json");
 
-exports.createNwriteToFileCall = createNwriteToFile;
-exports.generateDirectoryCall = generateDirectory;
-exports.changePathFromCurrentDirectoryCall = changePathFromCurrentDirectory;
-exports.eraseFileCall = eraseFile;
-exports.eraseDirectoryCall = eraseDirectory;
-exports.relocateFileOrDirectoryCall = relocateFileOrDirectory;
-exports.cloneFileCall = cloneFile;
-exports.systemInformationCall = systemInformation;
-exports.getRunningProcessesCall = getRunningProcesses;
-exports.wipeScreenCall = wipeScreen;
+module.exports.createNwriteToFileCall = createNwriteToFile;
+module.exports.generateDirectoryCall = generateDirectory;
+module.exports.eraseFileCall = eraseFile;
+module.exports.eraseDirectoryCall = eraseDirectory;
+module.exports.relocateFileOrDirectoryCall = relocateFileOrDirectory;
+module.exports.cloneFileCall = cloneFile;
+module.exports.systemInformationCall = systemInformation;
+module.exports.getRunningProcessesCall = getRunningProcesses;
+module.exports.runBatchesCall = runBatches;
 
 // @desc:  creating or creating & writing to a file
 function createNwriteToFile() {
@@ -71,8 +71,6 @@ function eraseDirectory() {
 function relocateFileOrDirectory() {
   const sourcePath = process.argv[2];
   const destinationPath = path.join(process.argv[3], sourcePath);
-  console.log(sourcePath);
-  console.log(destinationPath);
   fs.rename(sourcePath, destinationPath, (err) => {
     if (err) {
       console.log(err);
@@ -92,6 +90,7 @@ function cloneFile() {
   });
 }
 
+// @desc:  fetching system information
 function systemInformation() {
   console.log("Platform: ", os.platform());
   console.log("Type: ", os.type());
@@ -103,6 +102,7 @@ function systemInformation() {
   console.log("User Info: ", os.userInfo());
 }
 
+// @desc:  fetching the first 10 running processes in the system
 function getRunningProcesses() {
   exec("tasklist", (err, stdout, stderr) => {
     if (err) {
@@ -112,4 +112,41 @@ function getRunningProcesses() {
     const processes = stdout.split("\n").slice(2, 12);
     console.log(processes.join("\n"));
   });
+}
+
+// @desc    helper async exec
+function executeAsync(command) {
+  return new Promise((resolve, reject) => {
+    exec(command, (err, stdout, stderr) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
+}
+
+// @desc:   simulation of batch processing
+async function runBatches() {
+  const jsonArray = Object.entries(batches);
+  jsonArray.sort((a, b) => Object.keys(a[1]).length - Object.keys(b[1]).length);
+
+  for (let batch = 0; batch < jsonArray.length; batch++) {
+    const currentBatch = jsonArray[batch][1];
+    const jobKeys = Object.keys(currentBatch); // array of key of the batch
+
+    for (let i = 0; i < jobKeys.length; i++) {
+      const jobKey = jobKeys[i]; // fecthes the key i.e. job
+      const jobProcess = currentBatch[jobKey]; // fetches the value with that key/job
+
+      try {
+        await executeAsync(jobProcess);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    console.log(`${jsonArray[batch][0]} executed`);
+  }
 }
